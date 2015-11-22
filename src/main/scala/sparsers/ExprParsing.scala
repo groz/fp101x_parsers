@@ -1,6 +1,6 @@
 package sparsers
 
-object MainApp extends App {
+object ExprParsing extends App {
 
   import Parsers._
   import Parsing._
