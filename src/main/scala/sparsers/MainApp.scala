@@ -7,13 +7,13 @@ object MainApp extends App {
 
   /*
   Non left-recursive grammar:
-    <Exp> ::= <Term> <Add> | <Term> <Sub>
-    <Add> ::= + <Exp> | ε
-    <Sub> ::= - <Exp> | ε
-    <Term> ::= <Factor> <Mult> | <Factor> <Div>
-    <Mult> ::= * <Term> | ε
-    <Div> ::= / <Term> | ε
-    <Factor> ::= Integer | (<Exp>)
+    Expr ::= Term Add | Term Sub | Term
+    Add ::= + Expr
+    Sub ::= - Expr
+    Term ::= Factor Mult | Factor Div | Factor
+    Mult ::= * Term
+    Div ::= / Term
+    Factor ::= Integer | (Expr)
   */
 
   def expr: Parser[Expr] = for {
