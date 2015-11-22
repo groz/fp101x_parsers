@@ -5,8 +5,6 @@ object MainApp extends App {
   import Parsers._
   import Parsing._
 
-  val input: String = "2 + 2 * 3"
-
   /*
   Non left-recursive grammar:
     <Exp> ::= <Term> <Add> | <Term> <Sub>
@@ -55,6 +53,6 @@ object MainApp extends App {
   } yield x)
 
   for {
-    (e, out) <- expr.parse("2*3+4")
+    (e, out) <- expr.parse("1+2*(3+4)-16/2")
   } println(s"$e == ${e.eval}, unparsed: $out")
 }
