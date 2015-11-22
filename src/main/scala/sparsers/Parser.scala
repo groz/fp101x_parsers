@@ -2,7 +2,7 @@ package sparsers
 
 import Parsing._
 
-case class Parser[A](p: ParserFunc[A]) {
+case class Parser[+A](p: ParserFunc[A]) {
 
   def parse(str: Str) = p(str)
 
@@ -26,7 +26,7 @@ case class Parser[A](p: ParserFunc[A]) {
     } yield (a, out)
   }
 
-  def +++(next: Parser[A]): Parser[A] = Parser { inp =>
+  def +++[B >: A](next: Parser[B]): Parser[B] = Parser { inp =>
     parse(inp) match {
       case Nil => next.parse(inp)
       case x => x

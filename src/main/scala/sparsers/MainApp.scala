@@ -18,49 +18,43 @@ object MainApp extends App {
     <Factor> ::= Integer | (<Exp>)
   */
 
-  def expr: Parser[Int] = (for {
+  def expr: Parser[Expr] = for {
     t <- term
-    y <- add
-  } yield t + y) +++ (for {
-    t <- term
-    y <- add
-  } yield t - y)
+    x <- add(t) +++ sub(t) +++ result(t)
+  } yield x
 
-  def add = (for {
+  def add(lhs: Expr) = for {
     _ <- char('+')
     x <- expr
-  } yield x) +++ result(0)
+  } yield Add(lhs, x)
 
-  def sub = (for {
+  def sub(lhs: Expr) = for {
     _ <- char('-')
     x <- expr
-  } yield x) +++ result(0)
+  } yield Sub(lhs, x)
 
-  def term = (for {
-    x <- factor
-    y <- mult
-  } yield x * y) +++ (for {
-    x <- factor
-    y <- div
-  } yield x / y)
+  def term: Parser[Expr] = for {
+    f <- factor
+    x <- mult(f) +++ div(f) +++ result(f)
+  } yield x
 
-  def mult = (for {
+  def mult(lhs: Expr) = for {
     _ <- char('*')
-    x <- expr
-  } yield x) +++ result(1)
+    x <- term
+  } yield Mult(lhs, x)
 
-  def div = (for {
+  def div(lhs: Expr) = for {
     _ <- char('/')
-    x <- expr
-  } yield x) +++ result(1)
+    x <- term
+  } yield Div(lhs, x)
 
-  def factor = integer +++ (for {
+  def factor = integer.map(Value) +++ (for {
     _ <- char('(')
     x <- expr
     _ <- char(')')
   } yield x)
 
-
-  println(expr.parse("(2+2)*2"))
-  println(expr.parse("2+2*2"))
+  for {
+    (e, out) <- expr.parse("2*3+4")
+  } println(s"$e == ${e.eval}, unparsed: $out")
 }
