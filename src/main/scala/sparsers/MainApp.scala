@@ -9,20 +9,12 @@ object MainApp extends App {
 
   /*
   Non left-recursive grammar:
-    <Exp> ::= <Term> <Add> |
-              <Term> <Sub>
-
+    <Exp> ::= <Term> <Add> | <Term> <Sub>
     <Add> ::= + <Exp> | ε
-
     <Sub> ::= - <Exp> | ε
-
-    <Term> ::= <Factor> <Mult> |
-               <Factor> <Div>
-
+    <Term> ::= <Factor> <Mult> | <Factor> <Div>
     <Mult> ::= * <Term> | ε
-
     <Div> ::= / <Term> | ε
-
     <Factor> ::= Integer | (<Exp>)
   */
 

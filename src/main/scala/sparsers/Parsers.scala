@@ -51,7 +51,7 @@ object Parsers {
       _ <- string("--")
       _ <- many(sat(_ != '\n'))
       _ <- char('\n')
-    } yield ()
+    } yield ()A
 
   def nat: Parser[Int] = many1(digit).map(_.mkString.toInt)
 
