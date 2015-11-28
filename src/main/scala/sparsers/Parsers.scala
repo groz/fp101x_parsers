@@ -25,6 +25,12 @@ object Parsers {
 
   def letter: Parser[Char] = sat(_.isLetter)
 
+  def identifier: Parser[Str] = for {
+    c  <- letter
+    cs <- many(alphanum)
+  } yield c::cs
+
+
   def string(str: Str): Parser[Str] = str match {
     case Nil => result(str)
     case x :: xs => for {
